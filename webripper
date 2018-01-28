@@ -25,8 +25,14 @@ if [[$# -ge 1]] ; then
 	web_path=$1
 fi
 if [[ ($2 -eq "-d" ) && ( $# -ge 3 ) ]] ; then
+	down_path_usage=1
 	down_path=$3
 fi
 if [[ ($4 -eq "-p" ) && ( $# -ge 4 ) ]] ; then
 	parallel=1
+fi
+
+## Ripping
+if [[ ($parallel -ne 1 ) && ($down_path_usage -eq 1)]] ; then
+	wget -m -np -c -R "index.html*" "$web_path" -p "$down_path"
 fi
