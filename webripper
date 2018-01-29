@@ -8,31 +8,33 @@ if [[ $# -eq 0 ]] ; then
 	echo "You need to specify at least one argument, please see -h for help."
 	exit 1
 fi
-for var in "$@"
-do
-	if [[ $var -eq "-h" ]] ; then
-		echo "Help:"
-		echo ""
-		echo "Example: ./webripper HTTPS://PATH.TO/RIP -d PATH/TO/DOWNLOAD/ -p"
-		echo ""
-		echo "-d and -p arguments are optionnal."
-		echo "-p mean parallel, it speed up the download but can slow down your"
-		echo "computer, you need the parallel package on your machine."
-		exit 1
-	fi
-done
-if [[$# -ge 1]] ; then
+# for var in "$@"
+# do
+# 	if [[ $var -eq "-h" ]] ; then
+# 		echo "Help:"
+# 		echo ""
+# 		echo "Example: ./webripper HTTPS://PATH.TO/RIP -d PATH/TO/DOWNLOAD/ -p"
+# 		echo ""
+# 		echo "-d and -p arguments are optionnal."
+# 		echo "-p mean parallel, it speed up the download but can slow down your"
+# 		echo "computer, you need the parallel package on your machine."
+# 		exit 1
+# 	fi
+# done
+
+## COMPUTING DOWNLOAD
+if [[ $# -ge 1 ]] ; then
 	web_path=$1
 fi
-if [[ ($2 -eq "-d" ) && ( $# -ge 3 ) ]] ; then
+if [[ ( $2 -eq "-d" ) && ( $# -ge 3 ) ]] ; then
 	down_path_usage=1
 	down_path=$3
 fi
-if [[ ($4 -eq "-p" ) && ( $# -ge 4 ) ]] ; then
+if [[ ( $4 -eq "-p" ) && ( $# -ge 4 ) ]] ; then
 	parallel=1
 fi
 
 ## Ripping
-if [[ ($parallel -ne 1 ) && ($down_path_usage -eq 1)]] ; then
-	wget -m -np -c -R "index.html*" "$web_path" -p "$down_path"
+if [[ ( $parallel -ne 1 ) && ( $down_path_usage -eq 1 )]] ; then
+	wget -m -np -c -R "index.html*" --directory-prefix=$down_path "$web_path"
 fi
